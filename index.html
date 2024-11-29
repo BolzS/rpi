@@ -3,25 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stumm starten und nach Klick Ton aktivieren</title>
+    <title>Autoplay Audio mit Ton</title>
+    <style>
+        /* Die ganze Seite als interaktive Fläche */
+        body, html {
+            margin: 0;
+            height: 100%;
+            background: #000; /* Schwarzer Hintergrund */
+            overflow: hidden;
+        }
+
+        /* Unsichtbares Overlay, das auf Klick oder Scrollen wartet */
+        #overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent; /* Komplett transparent */
+            z-index: 10; /* Damit es über dem Audio-Element liegt */
+        }
+    </style>
 </head>
 <body>
-    <audio id="audio" controls>
+
+    <!-- Unsichtbares Overlay, das auf Klick oder Scrollen wartet -->
+    <div id="overlay"></div>
+
+    <!-- Das Audio-Element, das zunächst stumm und auf Autoplay gesetzt ist -->
+    <audio id="audio" muted autoplay>
         <source src="/assets/Lügenlord.mp3" type="audio/mp3">
+        Ihr Browser unterstützt das Audio-Tag nicht.
     </audio>
 
-    <button id="playButton">Klick hier, um das Audio zu hören!</button>
-
     <script>
-        var audioElement = document.getElementById("audio");
-        audioElement.muted = true; // Zuerst das Audio stumm abspielen
-        audioElement.play(); // Audio abspielen, aber ohne Ton
+        // Das Audio-Element und das Overlay
+        const audio = document.getElementById('audio');
+        const overlay = document.getElementById('overlay');
 
-        document.getElementById("playButton").addEventListener("click", function() {
-            audioElement.muted = false;  // Ton aktivieren
-            audioElement.play();  // Audio weiterspielen
-            this.style.display = "none";  // Button ausblenden
-        });
+        // Funktion zum Entfernen des Overlays und Abspielen des Audio mit Ton
+        function startAudio() {
+            audio.muted = false;  // Ton aktivieren
+            audio.play();  // Audio mit Ton abspielen
+            overlay.style.display = 'none';  // Overlay entfernen
+        }
+
+        // Klick-Event auf die Seite (auf das Overlay)
+        overlay.addEventListener('click', startAudio);
+
+        // Scroll-Event auf die Seite
+        window.addEventListener('scroll', startAudio);
     </script>
+    
 </body>
 </html>
