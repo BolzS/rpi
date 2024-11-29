@@ -1,17 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-
-    <h1>Testseite rpi third run</h1>
+    <title>Autoplay mit Ton und Invertiertem Mute-Button</title>
 </head>
 <body>
-        <!-- <audio controls autoplay>
-            <source src="/assets/Lügenlord.mp3" type="audio/mp3">
-        </audio> -->
+    <audio id="audio" controls>
+        <source src="/assets/Lügenlord.mp3" type="audio/mp3">
+    </audio>
 
-        <iframe src="assets/Lügenlord.mp3" allow="autoplay" id="audio" style="display:none"></iframe>
+    <script>
+        window.onload = function() {
+            var audioElement = document.getElementById('audio');
+
+            // Audio initial stummschalten, um Autoplay zu ermöglichen
+            audioElement.muted = true;
+
+            // Versuche, das Audio abzuspielen
+            audioElement.play();
+
+            // Warte eine kurze Zeit, um sicherzustellen, dass das Audio abgespielt wird
+            setTimeout(function() {
+                // Ton aktivieren, indem das Muted-Attribut entfernt wird
+                audioElement.muted = false;  // Umkehren des Mute-Status nach dem Start
+            }, 1000);  // Warte 1 Sekunde
+        };
+    </script>
 </body>
 </html>
