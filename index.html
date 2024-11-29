@@ -3,29 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Autoplay mit Ton und Invertiertem Mute-Button</title>
+    <title>Stumm starten und nach Klick Ton aktivieren</title>
 </head>
 <body>
     <audio id="audio" controls>
         <source src="/assets/Lügenlord.mp3" type="audio/mp3">
     </audio>
 
+    <button id="playButton">Klick hier, um das Audio zu hören!</button>
+
     <script>
-        window.onload = function() {
-            var audioElement = document.getElementById('audio');
+        var audioElement = document.getElementById("audio");
+        audioElement.muted = true; // Zuerst das Audio stumm abspielen
+        audioElement.play(); // Audio abspielen, aber ohne Ton
 
-            // Audio initial stummschalten, um Autoplay zu ermöglichen
-            audioElement.muted = true;
-
-            // Versuche, das Audio abzuspielen
-            audioElement.play();
-
-            // Warte eine kurze Zeit, um sicherzustellen, dass das Audio abgespielt wird
-            setTimeout(function() {
-                // Ton aktivieren, indem das Muted-Attribut entfernt wird
-                audioElement.muted = false;  // Umkehren des Mute-Status nach dem Start
-            }, 1000);  // Warte 1 Sekunde
-        };
+        document.getElementById("playButton").addEventListener("click", function() {
+            audioElement.muted = false;  // Ton aktivieren
+            audioElement.play();  // Audio weiterspielen
+            this.style.display = "none";  // Button ausblenden
+        });
     </script>
 </body>
 </html>
