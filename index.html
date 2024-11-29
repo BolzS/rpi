@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Autoplay Audio mit Ton</title>
+    <title>Audio mit GIF im Hintergrund</title>
     <style>
         /* Die ganze Seite als interaktive Fläche */
         body, html {
@@ -11,6 +11,17 @@
             height: 100%;
             background: #000; /* Schwarzer Hintergrund */
             overflow: hidden;
+            position: relative;
+        }
+
+        /* Das GIF, das in der Mitte der Seite angezeigt wird */
+        #gif {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* Zentrieren des GIFs */
+            width: 640px;  /* Größe des GIFs vergrößern */
+            z-index: 0; /* GIF liegt unter dem Overlay und Audio */
         }
 
         /* Unsichtbares Overlay, das auf Klick oder Scrollen wartet */
@@ -21,7 +32,12 @@
             width: 100%;
             height: 100%;
             background: transparent; /* Komplett transparent */
-            z-index: 10; /* Damit es über dem Audio-Element liegt */
+            z-index: 10; /* Overlay liegt über dem GIF und Audio */
+        }
+
+        /* Das Audio-Element (unsichtbar, aber aktiv) */
+        audio {
+            display: none; /* Audio unsichtbar machen */
         }
     </style>
 </head>
@@ -36,11 +52,14 @@
         Ihr Browser unterstützt das Audio-Tag nicht.
     </audio>
 
+    <!-- Das GIF, das in der Mitte der Seite angezeigt wird -->
+    <img id="gif" src="/assets/rainer.gif" alt="Rainer GIF">
+
     <script>
         // Das Audio-Element und das Overlay
         const audio = document.getElementById('audio');
         const overlay = document.getElementById('overlay');
-
+        
         // Funktion zum Entfernen des Overlays und Abspielen des Audio mit Ton
         function startAudio() {
             audio.muted = false;  // Ton aktivieren
@@ -48,12 +67,12 @@
             overlay.style.display = 'none';  // Overlay entfernen
         }
 
-        // Klick-Event auf die Seite (auf das Overlay)
+        // Klick-Event auf die Seite (auf das Overlay, überall auf der Seite)
         overlay.addEventListener('click', startAudio);
 
         // Scroll-Event auf die Seite
         window.addEventListener('scroll', startAudio);
     </script>
-    
+
 </body>
 </html>
