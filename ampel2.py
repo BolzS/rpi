@@ -2,36 +2,25 @@
 from gpiozero import TrafficLights
 from time import sleep
 
-# Initialisierung der Ampel mit physischen Pins (Pin 11 = Rot, Pin 13 = Gelb, Pin 15 = Grün)
-# Beachte: gpiozero verwendet die BOARD-Nummerierung, nicht BCM
-lights = TrafficLights(11, 13, 15, pin_factory=None)
+# Initialisierung von GPIO25, GPIO8 und GPIO7 als Ampel (Ausgang)
+lights = TrafficLights(17, 27, 22)
 
 # Definition einer Funktion für die Ampelphasen
 def traffic_light_sequence():
+    # Wiederholung einleiten
     while True:
         # Rot-Phase
-        lights.red.on()
-        lights.yellow.off()
-        lights.green.off()
+        yield (1, 0, 0)
         sleep(7)
-
         # Rot-Gelb-Phase
-        lights.red.on()
-        lights.yellow.on()
-        lights.green.off()
+        yield (1, 1, 0) # rot+gelb
         sleep(2)
-
         # Grün-Phase
-        lights.red.off()
-        lights.yellow.off()
-        lights.green.on()
+        yield (0, 0, 1) # grün
         sleep(5)
-
         # Gelb-Phase
-        lights.red.off()
-        lights.yellow.on()
-        lights.green.off()
+        yield (0, 1, 0) # gelb
         sleep(2)
 
 # Aufruf der Steuerung für die Ampelphasen
-traffic_light_sequence()
+lights.source = traffic_light_sequence()
