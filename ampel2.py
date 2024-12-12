@@ -1,23 +1,23 @@
 import RPi.GPIO as GPIO
 from time import sleep
 
-# Setze die GPIO-Nummerierung auf BCM
-GPIO.setmode(GPIO.BCM)
 
-# Definiere die Pins für rot, gelb und grün
-RED_PIN = 17    # Pin 11 in BCM
-YELLOW_PIN = 27 # Pin 13 in BCM
-GREEN_PIN = 22  # Pin 15 in BCM
+GPIO.setmode(GPIO.BOARD)
 
-# Setze die Pins als Ausgang
+
+RED_PIN = 11    
+YELLOW_PIN = 13 
+GREEN_PIN = 15 
+
+
 GPIO.setup(RED_PIN, GPIO.OUT)
 GPIO.setup(YELLOW_PIN, GPIO.OUT)
 GPIO.setup(GREEN_PIN, GPIO.OUT)
 
-# Funktion für die Ampelphasen
+
 def traffic_light_sequence():
     while True:
-        # Rot Phase
+        
         GPIO.output(RED_PIN, GPIO.HIGH)  # Rot an
         GPIO.output(YELLOW_PIN, GPIO.LOW)  # Gelb aus
         GPIO.output(GREEN_PIN, GPIO.LOW)  # Grün aus
@@ -41,10 +41,10 @@ def traffic_light_sequence():
         GPIO.output(GREEN_PIN, GPIO.LOW)  # Grün aus
         sleep(2)  # 2 Sekunden Gelb
 
-# Start der Ampelsequenz
+
 try:
     traffic_light_sequence()
 except KeyboardInterrupt:
     print("Programm beendet.")
 finally:
-    GPIO.cleanup()  # Sicherstellen, dass alle GPIO-Pins freigegeben werden
+    GPIO.cleanup() 
